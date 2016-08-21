@@ -56,10 +56,18 @@ INFO
 
 }
 
+function _ping {
+    ping -c 100 $1
+}
+
+function test_ping {
+    echo -n "Sending 100 Pings to $1 ... "
+    _ping "$2"
+}
+
 function _dl {
     wget -O /dev/null "$1" 2>&1 | awk '/\/dev\/null/ {speed=$3 $4} END {gsub(/\(|\)/,"",speed); print speed}'
 }
-
 
 # Bench a single download file.
 function bench_dl {
@@ -69,7 +77,7 @@ function bench_dl {
 
 
 # Bench downloads from various places in the world.
-function bench_downloads {
+function bench_network {
     echo
 
     bench_dl "CacheFly" \
